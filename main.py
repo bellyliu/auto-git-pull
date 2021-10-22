@@ -36,6 +36,7 @@ try:
     current_dir = dir
     os.chdir(dir)
     sendNotif("Pulling on " + dir)
+    command(f"echo 'pulling on {dir}' >> /home/belly/project-python/auto-git-pull/pull.log")
     fetchOrigin()
     pullMaster()
 
