@@ -1,4 +1,7 @@
 import os, notify2
+from dotenv import load_dotenv
+
+load_dotenv()
 
 notify2.init('notifier')
 
@@ -14,7 +17,9 @@ def fetchOrigin():
 def pullMaster():
   command("git checkout master && git pull origin master")
 
-workdir = "/home/belly/work/"
+workdir = os.getenv('WORKDIR')
+
+print(workdir)
 
 repolist = ["capi",
             "chef-free",
