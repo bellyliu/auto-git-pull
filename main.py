@@ -1,10 +1,12 @@
-import os
+import os, notify2
+
+notify2.init('notifier')
 
 def command(cmd):
   os.system(cmd)
 
-def sendNotif(tittle,cmd=''):
-  command(f"notify-send '{tittle}' {cmd}")
+def sendNotif(body):
+  notify2.Notification("Auto Git Pull",body,"notification-message-im").show()
 
 def fetchOrigin():
   command("git fetch origin")
@@ -24,22 +26,23 @@ repolist = ["capi",
             "panel",
             "partner",
             "qa",
+	          "terraform",
             "www"]
 
 current_dir = ""
 
 try:
-  sendNotif(f"Pull master branch on {workdir}")
+  sendNotif(body=f"Pull master branch on {workdir}")
 
   for repo in repolist:
     dir = workdir + repo
     current_dir = dir
     os.chdir(dir)
-    sendNotif("Pulling on " + dir)
+    sendNotif(body=f"Pulling on {dir}")
     command(f"echo 'pulling on {dir}' >> /home/belly/project-python/auto-git-pull/pull.log")
     fetchOrigin()
     pullMaster()
 
-  sendNotif(f"Pull master branch complete!")
+  sendNotif(body="Pull master branch complete!")
 except:
-  sendNotif(f"Pull master branch Failed on {current_dir}")
+  sendNotif(body=f"Pull master branch Failed on {current_dir}")
